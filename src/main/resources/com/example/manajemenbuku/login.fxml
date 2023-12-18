@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<BorderPane fx:controller="com.example.manajemenbuku.HelloController"
+            xmlns:fx="http://maven.apache.org/SETTINGS/1.0.0">
+    <center>
+        <VBox alignment="CENTER">
+            <Label fx:id="welcomeText"/>
+            <Button onAction="#onHelloButtonClick">Submit</Button>
+        </VBox>
+    </center>
+</BorderPane>
