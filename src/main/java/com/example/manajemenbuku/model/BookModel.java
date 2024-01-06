@@ -1,56 +1,76 @@
 package com.example.manajemenbuku.model;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class BookModel {
-    private final SimpleStringProperty id;
-    private String name;
-    private final SimpleStringProperty description;
-    private final SimpleIntegerProperty stock;
+    private String id;
+    private StringProperty title;
+    private StringProperty author;
+    private StringProperty publisher;
+    private StringProperty publishYear;
+    private StringProperty stock;
+
+    public BookModel(String id, String title, String author, String publisher, int publishYear, int stock) {
+        this.id = id;
+        this.title = new SimpleStringProperty(title);
+        this.author = new SimpleStringProperty(author);
+        this.publisher = new SimpleStringProperty(publisher);
+        this.publishYear = new SimpleStringProperty(String.valueOf(publishYear));
+        this.stock = new SimpleStringProperty(String.valueOf(stock));
+    }
 
     @Override
     public String toString() {
-        return "ini buku " + this.name;
+        return this.title.getName() + " memiliki stock: " + this.stock.getName();
     }
 
-    public BookModel(String id, String name, String description, int stock) {
-        this.id = new SimpleStringProperty(id);
-        this.name = name;
-        this.description = new SimpleStringProperty(description);
-        this.stock = new SimpleIntegerProperty(stock);
+
+    public StringProperty getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher.set(publisher);
     }
 
     public String getId() {
-        return id.get();
+        return id;
     }
 
     public void setId(String id) {
-        this.id.set(id);
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public StringProperty getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title.set(title);
     }
 
-    public String getDescription() {
-        return description.get();
+    public StringProperty getAuthor() {
+        return author;
     }
 
-    public void setDescription(String description) {
-        this.description.set(description);
+    public void setAuthor(String author) {
+        this.author.set(author);
     }
 
-    public int getStock() {
-        return stock.get();
+    public StringProperty getPublishYear() {
+        return publishYear;
+    }
+
+    public void setPublishYear(int publishYear) {
+        this.publishYear.set(String.valueOf(publishYear));
+    }
+
+    public StringProperty getStock() {
+        return stock;
     }
 
     public void setStock(int stock) {
-        this.stock.set(stock);
+        this.stock.set(String.valueOf(stock));
     }
 }

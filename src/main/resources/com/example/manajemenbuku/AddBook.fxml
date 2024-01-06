@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="562.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.manajemenbuku.controller.BookController">
+   <children>
+      <GridPane layoutX="28.0" layoutY="21.0" prefHeight="379.0" prefWidth="552.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="470.0" minWidth="10.0" prefWidth="470.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="352.0" minWidth="10.0" prefWidth="247.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="130.0" minHeight="0.0" prefHeight="38.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="317.0" minHeight="10.0" prefHeight="317.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="99.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox prefHeight="305.0" prefWidth="471.0" GridPane.rowIndex="1">
+               <children>
+                  <Pane prefHeight="45.0" prefWidth="359.0">
+                     <children>
+                        <Label layoutX="10.0" layoutY="14.0" prefHeight="17.0" prefWidth="77.0" text="Judul Buku: " />
+                         <TextField fx:id="title" layoutX="138.0" layoutY="10.0" prefHeight="27.0" prefWidth="250.0" promptText="Judul buku...." style="-fx-background-color: transparent; -fx-border-color: #0589ff; -fx-border-width: 0px 0px 2px 0px;" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="10.0" prefHeight="19.0" prefWidth="359.0">
+                     <children>
+                        <Label fx:id="errorTitle" layoutX="140.0" layoutY="1.0" prefHeight="18.0" prefWidth="244.0" textFill="#f50505" visible="true" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="10.0" prefHeight="45.0" prefWidth="359.0">
+                     <children>
+                        <Label layoutX="10.0" layoutY="14.0" prefHeight="18.0" prefWidth="94.0" text="Penulis Buku: " />
+                        <TextField fx:id="author" layoutX="138.0" layoutY="10.0" prefHeight="27.0" prefWidth="250.0" promptText="Penulis buku...." style="-fx-background-color: transparent; -fx-border-color: #0589ff; -fx-border-width: 0px 0px 2px 0px;" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="55.0" prefHeight="19.0" prefWidth="359.0">
+                     <children>
+                        <Label fx:id="errorAuthor" layoutX="140.0" layoutY="1.0" prefHeight="18.0" prefWidth="244.0" textFill="#f50505" visible="true" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="74.0" prefHeight="45.0" prefWidth="359.0">
+                     <children>
+                        <Label layoutX="10.0" layoutY="14.0" prefHeight="18.0" prefWidth="94.0" text="Penerbit Buku: " />
+                        <TextField fx:id="publisher" layoutX="138.0" layoutY="10.0" prefHeight="27.0" prefWidth="250.0" promptText="Penerbit buku...." style="-fx-background-color: transparent; -fx-border-color: #0589ff; -fx-border-width: 0px 0px 2px 0px;" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="119.0" prefHeight="19.0" prefWidth="359.0">
+                     <children>
+                        <Label fx:id="errorPublisher" layoutX="140.0" layoutY="1.0" prefHeight="18.0" prefWidth="244.0" textFill="#f50505" visible="true" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="138.0" prefHeight="45.0" prefWidth="359.0">
+                     <children>
+                        <Label layoutX="10.0" layoutY="14.0" prefHeight="18.0" prefWidth="94.0" text="Tahun terbit: " />
+                        <TextField fx:id="publishYear" accessibleRole="INCREMENT_BUTTON" layoutX="138.0" layoutY="10.0" prefHeight="27.0" prefWidth="250.0" promptText="Tahun terbit...." style="-fx-background-color: transparent; -fx-border-color: #0589ff; -fx-border-width: 0px 0px 2px 0px;" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="183.0" prefHeight="19.0" prefWidth="359.0">
+                     <children>
+                        <Label fx:id="errorPublishYear" layoutX="140.0" layoutY="1.0" prefHeight="18.0" prefWidth="244.0" textFill="#f50505" visible="true" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="202.0" prefHeight="45.0" prefWidth="359.0">
+                     <children>
+                        <Label layoutX="10.0" layoutY="14.0" prefHeight="18.0" prefWidth="94.0" text="Stock: " />
+                        <TextField fx:id="stock" layoutX="138.0" layoutY="10.0" prefHeight="27.0" prefWidth="250.0" promptText="Stock...." style="-fx-background-color: transparent; -fx-border-color: #0589ff; -fx-border-width: 0px 0px 2px 0px;" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="183.0" prefHeight="19.0" prefWidth="359.0">
+                     <children>
+                        <Label fx:id="errorStock" layoutX="140.0" layoutY="1.0" prefHeight="18.0" prefWidth="244.0" textFill="#f50505" visible="true" />
+                     </children>
+                  </Pane>
+               </children>
+            </VBox>
+            <HBox prefHeight="45.0" prefWidth="470.0">
+               <children>
+                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onClickSave" prefHeight="31.0" prefWidth="104.0" style="-fx-background-color: #0589ff;" text="Simpan" textFill="WHITE" />
+                  <Button fx:id="updateButton" visible="false" mnemonicParsing="false" onAction="#onClickUpdate" prefHeight="31.0" prefWidth="104.0" style="-fx-background-color: #0589ff;" text="Ubah" textFill="WHITE" />
+
+                  <Pane prefHeight="23.0" prefWidth="27.0" />
+                  <Button mnemonicParsing="false" onAction="#onClickCancel" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: gray;" text="Batal" textFill="WHITE" />
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
