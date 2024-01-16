@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.manajemenbuku.controller.CartBookController">
+    <TableView fx:id="tableBooks" layoutY="77.0" prefHeight="739.0" prefWidth="1045.0" style="-fx-border-color: transparent;">
+        <columns>
+            <TableColumn fx:id="titleColumn" prefWidth="262.3397216796875" styleClass="ali" text="Judul" />
+            <TableColumn fx:id="authorColumn" prefWidth="226.37734985351562" text="Penulis" />
+            <TableColumn fx:id="publisherColumn" prefWidth="244.6226806640625" text="Penerbit" />
+            <TableColumn fx:id="publishYearColumn" minWidth="1.47515869140625" prefWidth="178.5518798828125" text="Tahun Terbit" />
+            <TableColumn fx:id="stockColumn" prefWidth="131.46697998046875" text="Total" />
+        </columns>
+    </TableView>
+   <Button layoutX="29.0" layoutY="22.0" mnemonicParsing="false" onAction="#onClickDelete" prefHeight="35.0" prefWidth="108.0" style="-fx-background-color: red; -fx-font-weight: bold;" text="Hapus" textFill="WHITE" />
+   <Button layoutX="158.0" layoutY="22.0" mnemonicParsing="false" onAction="#onClickCancel" prefHeight="35.0" prefWidth="108.0" style="-fx-background-color: gray; -fx-font-weight: bold;" text="Kembali" textFill="WHITE" />
+   <Button layoutX="914.0" layoutY="22.0" mnemonicParsing="false" onAction="#onClickSubmit" prefHeight="35.0" prefWidth="108.0" style="-fx-background-color: #0589ff; -fx-font-weight: bold;" text="Pinjam" textFill="WHITE" />
+</AnchorPane>

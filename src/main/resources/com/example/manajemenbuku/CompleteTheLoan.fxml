@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="624.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.manajemenbuku.controller.CompleteTheLoanController">
+    <children>
+        <GridPane layoutX="34.0" layoutY="17.0" prefHeight="629.0" prefWidth="537.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="571.0" minWidth="10.0" prefWidth="571.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="278.0" minWidth="0.0" prefWidth="0.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="119.0" minHeight="4.0" prefHeight="37.36555480957031" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="561.6344451904297" minHeight="10.0" prefHeight="561.6344451904297" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="64.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+                    <children>
+                  <Pane prefHeight="39.0" prefWidth="537.0">
+                     <children>
+                        <Label layoutX="17.0" layoutY="11.0" prefHeight="17.0" prefWidth="147.0" text="Tanggal Peminjaman" />
+                        <Label fx:id="tglPeminjaman" layoutX="193.0" layoutY="11.0" prefHeight="17.0" prefWidth="190.0" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="537.0">
+                     <children>
+                        <Label layoutX="18.0" layoutY="12.0" prefHeight="17.0" prefWidth="148.0" text="Tanggal Pengembalian" />
+                        <Label fx:id="tglPengembalian" layoutX="194.0" layoutY="10.0" prefHeight="17.0" prefWidth="190.0" />
+                     </children>
+                  </Pane>
+                  <Pane prefHeight="40.0" prefWidth="537.0">
+                     <children>
+                        <Label layoutX="19.0" layoutY="15.0" prefHeight="17.0" prefWidth="150.0" text="Denda" />
+                        <Label fx:id="denda" layoutX="195.0" layoutY="15.0" prefHeight="17.0" prefWidth="190.0" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="36.0" prefHeight="49.0" prefWidth="537.0">
+                     <children>
+                        <Label layoutX="19.0" layoutY="15.0" prefHeight="17.0" prefWidth="150.0" text="Peminjam" />
+                        <Label fx:id="nama" layoutX="195.0" layoutY="15.0" prefHeight="17.0" prefWidth="190.0" />
+                     </children>
+                  </Pane>
+                        <TableView fx:id="tableBooks" prefHeight="344.0" prefWidth="537.0" style="-fx-border-color: transparent;">
+                            <columns>
+                                <TableColumn fx:id="titleColumn" prefWidth="133.5" styleClass="ali" text="Judul" />
+                                <TableColumn fx:id="authorColumn" prefWidth="123.22894287109375" text="Penulis" />
+                                <TableColumn fx:id="publisherColumn" prefWidth="121.98910522460938" text="Penerbit" />
+                                <TableColumn fx:id="publishYearColumn" minWidth="1.47515869140625" prefWidth="83.99951171875" text="Tahun Terbit" />
+                                <TableColumn fx:id="stockColumn" prefWidth="72.0" text="Total" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+                <Pane prefHeight="38.0" prefWidth="537.0">
+                    <children>
+                        <Button layoutX="-3.0" mnemonicParsing="false" onAction="#onClickSave" prefHeight="34.0" prefWidth="106.0" style="-fx-font-weight: bold; -fx-background-color: #0589ff;" text="Selesai" textFill="WHITE" />
+                        <Button layoutX="122.0" mnemonicParsing="false" onAction="#onClickCancel" prefHeight="34.0" prefWidth="106.0" style="-fx-font-weight: bold; -fx-background-color: gray;" text="Kembali" textFill="WHITE" />
+                    </children>
+                </Pane>
+            </children>
+        </GridPane>
+    </children>
+</AnchorPane>

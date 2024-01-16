@@ -31,11 +31,6 @@ public class LoginController implements Initializable {
     private Text loginLabel;
 
     @FXML
-    protected void onClickForgotPassword() {
-
-    }
-
-    @FXML
     public void login(ActionEvent ae) throws Exception {
         String nme = name.getText();
         nameError.setText(isNotEmptyField(nme, "Nama"));
@@ -49,12 +44,12 @@ public class LoginController implements Initializable {
             if (nme.isEmpty()) {
                 boolean isRegistered = loginDAO.login(uname, pw);
                 if (isRegistered) {
-                    Main.showListBooksPage();
+                    Main.showStudentPage();
                 }
                 pwError.setText("Harap periksa kembali.");
             } else {
                 loginDAO.register(nme, uname, pw);
-                Main.showListBooksPage();
+                Main.showStudentPage();
             }
         }
         username.setText("");

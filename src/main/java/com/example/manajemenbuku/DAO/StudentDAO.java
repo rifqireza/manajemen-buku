@@ -1,6 +1,5 @@
 package com.example.manajemenbuku.DAO;
 
-import com.example.manajemenbuku.model.BookModel;
 import com.example.manajemenbuku.model.StudentModel;
 import com.example.manajemenbuku.utility.JDBCConnection;
 import javafx.collections.FXCollections;
@@ -9,7 +8,6 @@ import javafx.collections.ObservableList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 public class StudentDAO implements StudentInterface<StudentModel> {
     @Override

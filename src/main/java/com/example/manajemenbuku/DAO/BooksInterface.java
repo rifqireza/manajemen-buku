@@ -8,4 +8,5 @@ public interface BooksInterface<E> {
     public int updateData(E data);
     public List<E> showData();
     public E getDetail(String id);
+    public int countCart();
 }

@@ -1,9 +1,7 @@
 package com.example.manajemenbuku.controller;
 
-import com.example.manajemenbuku.DAO.BooksDAO;
 import com.example.manajemenbuku.DAO.StudentDAO;
 import com.example.manajemenbuku.Main;
-import com.example.manajemenbuku.model.BookModel;
 import com.example.manajemenbuku.model.StudentModel;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

@@ -10,7 +10,7 @@ public class StudentModel {
     private StringProperty prodi;
     private StringProperty noTelp;
 
-    public StudentModel(String id, String name, String nim, String prodi, String noTelp) {
+    public StudentModel(String id, String nim, String name, String prodi, String noTelp) {
         this.id = id;
         this.name = new SimpleStringProperty(name);
         this.NIM = new SimpleStringProperty(nim);

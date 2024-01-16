@@ -47,6 +47,12 @@ public class SidebarController {
                 case "Buku":
                     Main.showListBooksPage();
                     break;
+                case "Peminjaman":
+                    Main.showListPeminjaman();
+                    break;
+                case "Pengembalian":
+                    Main.showListPengembalian();
+                    break;
                 default:
                     break;
             }

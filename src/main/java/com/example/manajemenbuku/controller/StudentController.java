@@ -1,9 +1,7 @@
 package com.example.manajemenbuku.controller;
 
-import com.example.manajemenbuku.DAO.BooksDAO;
 import com.example.manajemenbuku.DAO.StudentDAO;
 import com.example.manajemenbuku.Main;
-import com.example.manajemenbuku.model.BookModel;
 import com.example.manajemenbuku.model.StudentModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -73,7 +71,7 @@ public class StudentController {
 
     @FXML
     private void onClickCancel() throws Exception {
-        Main.showListBooksPage();
+        Main.showStudentPage();
     }
 
     @FXML

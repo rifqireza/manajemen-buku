@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 public class BooksDAO implements BooksInterface<BookModel> {
     @Override
@@ -117,5 +116,23 @@ public class BooksDAO implements BooksInterface<BookModel> {
             System.out.println(e.getMessage());
         }
         return bookModel;
+    }
+
+    @Override
+    public int countCart() {
+        int result = 0;
+        try {
+            String query = "SELECT COUNT(distinct id_buku) AS total FROM keranjang;";
+            PreparedStatement ps;
+            ps = JDBCConnection.getConnection().prepareStatement(query);
+
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            System.out.println(rs.getInt("total"));
+            result = rs.getInt("total");
+        } catch (SQLException E) {
+            System.out.println(E.getMessage());
+        }
+        return result;
     }
 }
