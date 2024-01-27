@@ -2,7 +2,8 @@ package com.example.manajemenbuku.controller;
 
 import com.example.manajemenbuku.DAO.PeminjamanDAO;
 import com.example.manajemenbuku.Main;
-import com.example.manajemenbuku.model.PeminjamanModel;
+import com.example.manajemenbuku.model.Peminjaman;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,27 +17,27 @@ import java.util.ResourceBundle;
 
 public class ListKembaliController implements Initializable {
     @FXML
-    private TableView<PeminjamanModel> tablePengembalian;
+    private TableView<Peminjaman> tablePengembalian;
     @FXML
-    private TableColumn<PeminjamanModel, String> tglPinjamColumn;
+    private TableColumn<Peminjaman, String> tglPinjamColumn;
     @FXML
-    private TableColumn<PeminjamanModel, String> tglKembaliColumn;
+    private TableColumn<Peminjaman, String> tglKembaliColumn;
     @FXML
-    private TableColumn<PeminjamanModel, String> dendaColumn;
+    private TableColumn<Peminjaman, String> dendaColumn;
     @FXML
-    private TableColumn<PeminjamanModel, String> anggotaColumn;
+    private TableColumn<Peminjaman, String> anggotaColumn;
     @FXML
     private TreeView<String> sidebarTree;
 
     @FXML
     private void onClickDelete(ActionEvent actionEvent) throws Exception {
         PeminjamanDAO peminjamanDAO = new PeminjamanDAO();
-        PeminjamanModel pModel;
-        pModel = (PeminjamanModel) tablePengembalian.getSelectionModel().getSelectedItem();
+        Peminjaman pModel;
+        pModel = (Peminjaman) tablePengembalian.getSelectionModel().getSelectedItem();
         peminjamanDAO.deletePengembalian(pModel.getId());
 
-        ObservableList<PeminjamanModel> peminjamanModels = peminjamanDAO.showPeminjaman(true);
-        tablePengembalian.setItems(peminjamanModels);
+        ObservableList<Peminjaman> peminjamen = peminjamanDAO.showPeminjaman(true);
+        tablePengembalian.setItems(peminjamen);
     }
 
     @FXML
@@ -49,12 +50,12 @@ public class ListKembaliController implements Initializable {
         SidebarController sidebarController = new SidebarController();
         sidebarController.initSidebarItem(sidebarTree);
         PeminjamanDAO peminjamanDAO = new PeminjamanDAO();
-        ObservableList<PeminjamanModel> peminjamanModels = peminjamanDAO.showPeminjaman(true);
+        ObservableList<Peminjaman> peminjamen = peminjamanDAO.showPeminjaman(true);
 
-        tglPinjamColumn.setCellValueFactory(cellData -> cellData.getValue().tglPeminjamanProperty());
-        tglKembaliColumn.setCellValueFactory(cellData -> cellData.getValue().tglPengembalianProperty());
-        dendaColumn.setCellValueFactory(cellData -> cellData.getValue().dendaProperty());
-        anggotaColumn.setCellValueFactory(cellData -> cellData.getValue().studentProperty());
-        tablePengembalian.setItems(peminjamanModels);
+        tglPinjamColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTglPeminjaman()));
+        tglKembaliColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTglPengembalian()));
+        dendaColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDenda()));
+        anggotaColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStudent()));
+        tablePengembalian.setItems(peminjamen);
     }
 }

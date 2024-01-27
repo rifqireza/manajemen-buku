@@ -2,7 +2,7 @@ package com.example.manajemenbuku.controller;
 
 import com.example.manajemenbuku.DAO.StudentDAO;
 import com.example.manajemenbuku.Main;
-import com.example.manajemenbuku.model.StudentModel;
+import com.example.manajemenbuku.model.Anggota;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,19 +32,19 @@ public class StudentController {
     @FXML
     private Button updateButton;
 
-    private String Id;
+    private int Id;
 
-    public void getId(String id) {
+    public void getId(int id) {
         this.Id = id;
         StudentDAO studentDAO = new StudentDAO();
-        StudentModel studentModel = studentDAO.getDetail(id);
-        if (!studentModel.getId().isEmpty()) {
+        Anggota anggota = studentDAO.getDetail(id);
+        if (anggota.getId() > 0) {
             saveButton.setVisible(false);
             updateButton.setVisible(true);
-            NIM.setText(studentModel.getNIM());
-            name.setText(studentModel.getName());
-            prodi.setText(studentModel.getProdi());
-            noTelp.setText(studentModel.getNoTelp());
+            NIM.setText(anggota.getNIM());
+            name.setText(anggota.getName());
+            prodi.setText(anggota.getProdi());
+            noTelp.setText(anggota.getNoTelp());
         }
     }
 
@@ -55,7 +55,7 @@ public class StudentController {
         String prodiText = prodi.getText();
         String noTelpText = noTelp.getText();
         if (isValidField(nimText, nameText, prodiText, noTelpText)) {
-            StudentModel studentModel = new StudentModel(
+            Anggota anggota = new Anggota(
                     this.Id,
                     nimText,
                     nameText,
@@ -64,7 +64,7 @@ public class StudentController {
             );
 
             StudentDAO studentDAO = new StudentDAO();
-            studentDAO.updateData(studentModel);
+            studentDAO.updateData(anggota);
             Main.showStudentPage();
         }
     }
@@ -81,16 +81,16 @@ public class StudentController {
         String prodiText = prodi.getText();
         String noTelpText = noTelp.getText();
         if (isValidField(nimText, nameText, prodiText, noTelpText)) {
-            StudentModel studentModel = new StudentModel(
-                    UUID.randomUUID().toString(),
-                    nimText,
+            Anggota anggota = new Anggota(
+                    1,
                     nameText,
+                    nimText,
                     prodiText,
                     noTelpText
             );
 
             StudentDAO studentDAO = new StudentDAO();
-            studentDAO.addData(studentModel);
+            studentDAO.addData(anggota);
             Main.showStudentPage();
         }
 

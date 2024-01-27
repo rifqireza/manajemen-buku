@@ -2,6 +2,7 @@ package com.example.manajemenbuku.controller;
 
 import com.example.manajemenbuku.DAO.LoginDAO;
 import com.example.manajemenbuku.Main;
+import com.example.manajemenbuku.model.Admin;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,22 +34,26 @@ public class LoginController implements Initializable {
     @FXML
     public void login(ActionEvent ae) throws Exception {
         String nme = name.getText();
-        nameError.setText(isNotEmptyField(nme, "Nama"));
+        if (name.isVisible()) {
+            nameError.setText(isNotEmptyField(nme, "Nama"));
+        }
+
         String uname = username.getText();
         unameError.setText(isNotEmptyField(uname, "Username"));
         String pw = password.getText();
         pwError.setText(isNotEmptyField(pw, "Password"));
+        Admin admin = new Admin(1, nme, uname, pw);
 
         if (unameError.getText().isEmpty() && pwError.getText().isEmpty()) {
             LoginDAO loginDAO = new LoginDAO();
             if (nme.isEmpty()) {
-                boolean isRegistered = loginDAO.login(uname, pw);
+                boolean isRegistered = loginDAO.login(admin);
                 if (isRegistered) {
                     Main.showStudentPage();
                 }
                 pwError.setText("Harap periksa kembali.");
             } else {
-                loginDAO.register(nme, uname, pw);
+                loginDAO.register(admin);
                 Main.showStudentPage();
             }
         }

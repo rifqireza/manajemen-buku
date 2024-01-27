@@ -2,7 +2,7 @@ package com.example.manajemenbuku.controller;
 
 import com.example.manajemenbuku.DAO.BooksDAO;
 import com.example.manajemenbuku.Main;
-import com.example.manajemenbuku.model.BookModel;
+import com.example.manajemenbuku.model.Buku;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -36,20 +36,20 @@ public class BookController {
     @FXML
     private Button updateButton;
 
-    private String Id;
+    private int Id;
 
-    public void getId(String id) {
+    public void getId(int id) {
         this.Id = id;
         BooksDAO booksDAO = new BooksDAO();
-        BookModel bookModel = booksDAO.getDetail(id);
-        if (!bookModel.getId().isEmpty()) {
+        Buku buku = booksDAO.getDetail(id);
+        if (buku.getId() > 1) {
             saveButton.setVisible(false);
             updateButton.setVisible(true);
-            title.setText(bookModel.getTitle().getValue());
-            author.setText(bookModel.getAuthor().getValue());
-            publisher.setText(bookModel.getPublisher().getValue());
-            publishYear.setText(bookModel.getPublishYear().getValue());
-            stock.setText(bookModel.getStock().getValue());
+            title.setText(buku.getTitle());
+            author.setText(buku.getAuthor());
+            publisher.setText(buku.getPublisher());
+            publishYear.setText(String.valueOf(buku.getPublishYear()));
+            stock.setText(String.valueOf(buku.getStock()));
         }
     }
 
@@ -61,7 +61,7 @@ public class BookController {
         String publishYearText = publishYear.getText();
         String stockText = stock.getText();
         if (isValidField(titleText, authorText, publisherText, publishYearText, stockText)) {
-            BookModel bookModel = new BookModel(
+            Buku buku = new Buku(
                     this.Id,
                     titleText,
                     authorText,
@@ -71,7 +71,7 @@ public class BookController {
             );
 
             BooksDAO booksDAO = new BooksDAO();
-            booksDAO.updateData(bookModel);
+            booksDAO.updateData(buku);
             Main.showListBooksPage();
         }
     }
@@ -89,8 +89,8 @@ public class BookController {
         String publishYearText = publishYear.getText();
         String stockText = stock.getText();
         if (isValidField(titleText, authorText, publisherText, publishYearText, stockText)) {
-            BookModel bookModel = new BookModel(
-                    UUID.randomUUID().toString(),
+            Buku buku = new Buku(
+                    1,
                     titleText,
                     authorText,
                     publisherText,
@@ -99,7 +99,7 @@ public class BookController {
             );
 
             BooksDAO booksDAO = new BooksDAO();
-            booksDAO.addData(bookModel);
+            booksDAO.addData(buku);
             Main.showListBooksPage();
         }
 

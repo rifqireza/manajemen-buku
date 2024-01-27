@@ -7,6 +7,6 @@ public interface BooksInterface<E> {
     public int delData(E data);
     public int updateData(E data);
     public List<E> showData();
-    public E getDetail(String id);
+    public E getDetail(int id);
     public int countCart();
 }

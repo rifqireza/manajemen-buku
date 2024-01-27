@@ -2,7 +2,8 @@ package com.example.manajemenbuku.controller;
 
 import com.example.manajemenbuku.DAO.PeminjamanDAO;
 import com.example.manajemenbuku.Main;
-import com.example.manajemenbuku.model.PeminjamanModel;
+import com.example.manajemenbuku.model.Peminjaman;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,15 +20,15 @@ import java.util.ResourceBundle;
 
 public class ListPinjamController implements Initializable {
     @FXML
-    private TableView<PeminjamanModel> tablePeminjaman;
+    private TableView<Peminjaman> tablePeminjaman;
     @FXML
-    private TableColumn<PeminjamanModel, String> tglPinjamColumn;
+    private TableColumn<Peminjaman, String> tglPinjamColumn;
     @FXML
-    private TableColumn<PeminjamanModel, String> tglKembaliColumn;
+    private TableColumn<Peminjaman, String> tglKembaliColumn;
     @FXML
-    private TableColumn<PeminjamanModel, String> dendaColumn;
+    private TableColumn<Peminjaman, String> dendaColumn;
     @FXML
-    private TableColumn<PeminjamanModel, String> anggotaColumn;
+    private TableColumn<Peminjaman, String> anggotaColumn;
     @FXML
     private TreeView<String> sidebarTree;
 
@@ -43,8 +44,8 @@ public class ListPinjamController implements Initializable {
 
     @FXML
     private void onClickDone(ActionEvent actionEvent) throws Exception {
-        PeminjamanModel pModel;
-        pModel = (PeminjamanModel) tablePeminjaman.getSelectionModel().getSelectedItem();
+        Peminjaman pModel;
+        pModel = (Peminjaman) tablePeminjaman.getSelectionModel().getSelectedItem();
 
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("CompleteTheLoan.fxml"));
         Parent root = loader.load();
@@ -60,13 +61,13 @@ public class ListPinjamController implements Initializable {
         SidebarController sidebarController = new SidebarController();
         sidebarController.initSidebarItem(sidebarTree);
         PeminjamanDAO peminjamanDAO = new PeminjamanDAO();
-        ObservableList<PeminjamanModel> peminjamanModels;
-        peminjamanModels = peminjamanDAO.showPeminjaman(false);
+        ObservableList<Peminjaman> peminjamen;
+        peminjamen = peminjamanDAO.showPeminjaman(false);
 
-        tglPinjamColumn.setCellValueFactory(cellData -> cellData.getValue().tglPeminjamanProperty());
-        tglKembaliColumn.setCellValueFactory(cellData -> cellData.getValue().tglPengembalianProperty());
-        dendaColumn.setCellValueFactory(cellData -> cellData.getValue().dendaProperty());
-        anggotaColumn.setCellValueFactory(cellData -> cellData.getValue().studentProperty());
-        tablePeminjaman.setItems(peminjamanModels);
+        tglPinjamColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTglPeminjaman()));
+        tglKembaliColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTglPengembalian()));
+        dendaColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDenda()));
+        anggotaColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStudent()));
+        tablePeminjaman.setItems(peminjamen);
     }
 }

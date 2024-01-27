@@ -3,7 +3,8 @@ package com.example.manajemenbuku.controller;
 import com.example.manajemenbuku.DAO.BooksDAO;
 import com.example.manajemenbuku.DAO.CartDAO;
 import com.example.manajemenbuku.Main;
-import com.example.manajemenbuku.model.BookModel;
+import com.example.manajemenbuku.model.Buku;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,19 +21,19 @@ import java.util.ResourceBundle;
 
 public class BooksController implements Initializable {
     @FXML
-    private TableView<BookModel> tableBooks;
+    private TableView<Buku> tableBooks;
     @FXML
-    private TableColumn<BookModel, String> titleColumn;
+    private TableColumn<Buku, String> titleColumn;
     @FXML
-    private TableColumn<BookModel, String> authorColumn;
+    private TableColumn<Buku, String> authorColumn;
     @FXML
-    private TableColumn<BookModel, String> publisherColumn;
+    private TableColumn<Buku, String> publisherColumn;
     @FXML
-    private TableColumn<BookModel, String> publishYearColumn;
+    private TableColumn<Buku, String> publishYearColumn;
     @FXML
-    private TableColumn<BookModel, String> stockColumn;
+    private TableColumn<Buku, String> stockColumn;
     @FXML
-    private TableColumn<BookModel, Node> action;
+    private TableColumn<Buku, Node> action;
     @FXML
     private TreeView<String> sidebarTree;
     @FXML
@@ -50,10 +51,10 @@ public class BooksController implements Initializable {
 
     @FXML
     private void onClickDelete(ActionEvent actionEvent) {
-        BookModel bookModel;
-        bookModel = (BookModel) tableBooks.getSelectionModel().getSelectedItem();
+        Buku buku;
+        buku = (Buku) tableBooks.getSelectionModel().getSelectedItem();
         BooksDAO booksDAO = new BooksDAO();
-        int result = booksDAO.delData(bookModel);
+        int result = booksDAO.delData(buku);
         if (result != 0) {
             System.out.println("Delete Berhasil");
         }
@@ -62,14 +63,14 @@ public class BooksController implements Initializable {
 
     @FXML
     private void onClickUpdate(ActionEvent actionEvent) throws Exception {
-        BookModel bookModel;
-        bookModel = (BookModel) tableBooks.getSelectionModel().getSelectedItem();
+        Buku buku;
+        buku = (Buku) tableBooks.getSelectionModel().getSelectedItem();
 
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("AddBook.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         BookController addBookControllers = loader.getController();
-        addBookControllers.getId(bookModel.getId());
+        addBookControllers.getId(buku.getId());
 
         Main.showUpdateBookPage(scene);
     }
@@ -84,16 +85,16 @@ public class BooksController implements Initializable {
         sidebarController.initSidebarItem(sidebarTree);
         BooksDAO booksDAO = new BooksDAO();
 
-        ObservableList<BookModel> listBooks = booksDAO.showData();
+        ObservableList<Buku> listBukus = booksDAO.showData();
         countLabel.setText(String.valueOf(booksDAO.countCart()));
 
-        titleColumn.setCellValueFactory(cellData -> cellData.getValue().getTitle());
-        authorColumn.setCellValueFactory(cellData -> cellData.getValue().getAuthor());
-        publisherColumn.setCellValueFactory(cellData -> cellData.getValue().getPublisher());
-        publishYearColumn.setCellValueFactory(cellData -> cellData.getValue().getPublishYear());
-        stockColumn.setCellValueFactory(cellData -> cellData.getValue().getStock());
+        titleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
+        authorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAuthor()));
+        publisherColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPublisher()));
+        publishYearColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getPublishYear())));
+        stockColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getStock())));
         action.setCellFactory(param -> {
-            TableCell<BookModel, Node> cell = new TableCell<BookModel, Node>() {
+            TableCell<Buku, Node> cell = new TableCell<Buku, Node>() {
                 private final Button button = new Button("Tambah Keranjang");
                 private Button minButton = new Button("-");
                 private Label label = new Label("");
@@ -103,24 +104,24 @@ public class BooksController implements Initializable {
                     button.setStyle("-fx-background-color: #0589ff; -fx-text-fill: white;");
                     button.setOnAction(event -> {
                         CartDAO cartDAO = new CartDAO();
-                        BookModel bookModel = (BookModel) getTableView().getItems().get(getIndex());
-                        addToCart(Integer.parseInt(bookModel.getId()));
+                        Buku buku = (Buku) getTableView().getItems().get(getIndex());
+                        addToCart(buku.getId());
                     });
 
                     minButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
                     minButton.setOnAction(event -> {
                         CartDAO cartDAO = new CartDAO();
-                        BookModel bookModel = (BookModel) getTableView().getItems().get(getIndex());
-                        cartDAO.reduceCart(Integer.parseInt(bookModel.getId()));
+                        Buku buku = (Buku) getTableView().getItems().get(getIndex());
+                        cartDAO.reduceCart(buku.getId());
                         init();
                     });
 
                     plusButton.setStyle("-fx-background-color: #0589ff; -fx-text-fill: white;");
                     plusButton.setOnAction(event -> {
                         CartDAO cartDAO = new CartDAO();
-                        BookModel bookModel = (BookModel) getTableView().getItems().get(getIndex());
-                        if (Integer.parseInt(bookModel.getStock().getValue()) > 0) {
-                            addToCart(Integer.parseInt(bookModel.getId()));
+                        Buku buku = (Buku) getTableView().getItems().get(getIndex());
+                        if (buku.getStock() > 0) {
+                            addToCart(buku.getId());
                         }
                     });
                 }
@@ -131,9 +132,9 @@ public class BooksController implements Initializable {
                     if (empty) {
                         setGraphic(null);
                     } else {
-                        BookModel bookModel = (BookModel) getTableView().getItems().get(getIndex());
+                        Buku buku = (Buku) getTableView().getItems().get(getIndex());
                         CartDAO cartDAO = new CartDAO();
-                        int total = cartDAO.getCountById(Integer.parseInt(bookModel.getId()));
+                        int total = cartDAO.getCountById(buku.getId());
                         if (total > 0) {
                             label.setText(String.valueOf(total));
                             HBox hBox = new HBox(minButton, label, plusButton);
@@ -148,7 +149,7 @@ public class BooksController implements Initializable {
             };
             return cell;
         });
-        tableBooks.setItems(listBooks);
+        tableBooks.setItems(listBukus);
     }
 
     private void addToCart(int id) {
@@ -160,7 +161,7 @@ public class BooksController implements Initializable {
     private void init() {
         BooksDAO booksDAO = new BooksDAO();
         countLabel.setText(String.valueOf(booksDAO.countCart()));
-        ObservableList<BookModel> listBooks = booksDAO.showData();
-        tableBooks.setItems(listBooks);
+        ObservableList<Buku> listBukus = booksDAO.showData();
+        tableBooks.setItems(listBukus);
     }
 }

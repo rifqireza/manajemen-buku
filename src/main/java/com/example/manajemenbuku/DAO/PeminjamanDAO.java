@@ -1,8 +1,8 @@
 package com.example.manajemenbuku.DAO;
 
-import com.example.manajemenbuku.model.BookModel;
-import com.example.manajemenbuku.model.DetailPeminjamanModel;
-import com.example.manajemenbuku.model.PeminjamanModel;
+import com.example.manajemenbuku.model.Buku;
+import com.example.manajemenbuku.model.DetailPeminjaman;
+import com.example.manajemenbuku.model.Peminjaman;
 import com.example.manajemenbuku.utility.JDBCConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-public class PeminjamanDAO implements PeminjamanInterface<PeminjamanModel> {
+public class PeminjamanDAO implements PeminjamanInterface<Peminjaman> {
     @Override
-    public int addPeminjaman(PeminjamanModel data, ObservableList<BookModel> bookModels) {
+    public int addPeminjaman(Peminjaman data, ObservableList<Buku> bukus) {
         int result = 1;
         try {
             Connection conn = JDBCConnection.getConnection();
@@ -35,13 +35,13 @@ public class PeminjamanDAO implements PeminjamanInterface<PeminjamanModel> {
                     ResultSet generatedKeys = ps1.getGeneratedKeys();
                     if (generatedKeys.next()) {
                         int generatedId = generatedKeys.getInt(1);
-                        for (BookModel bm : bookModels) {
+                        for (Buku bm : bukus) {
                             String query2 = "insert into detail_peminjaman values(?, ?, ?);";
                             PreparedStatement ps2;
                             ps2 = conn.prepareStatement(query2);
-                            ps2.setInt(1, Integer.parseInt(bm.getId()));
+                            ps2.setInt(1, bm.getId());
                             ps2.setInt(2, generatedId);
-                            ps2.setInt(3, Integer.parseInt(bm.getStock().getValue()));
+                            ps2.setInt(3, bm.getStock());
                             result = ps2.executeUpdate();
                             if (result > 0) {
                                 String query3 = "delete from keranjang;";
@@ -70,8 +70,8 @@ public class PeminjamanDAO implements PeminjamanInterface<PeminjamanModel> {
     }
 
     @Override
-    public ObservableList<PeminjamanModel> showPeminjaman(boolean selesai) {
-        ObservableList<PeminjamanModel> pList = FXCollections.observableArrayList();
+    public ObservableList<Peminjaman> showPeminjaman(boolean selesai) {
+        ObservableList<Peminjaman> pList = FXCollections.observableArrayList();
         try {
             String query = "select * from peminjaman join peminjam on(peminjam.id = peminjaman.id_anggota) where selesai = ?;";
             PreparedStatement ps;
@@ -85,7 +85,7 @@ public class PeminjamanDAO implements PeminjamanInterface<PeminjamanModel> {
                 String denda = rs.getString("denda");
                 String anggota = rs.getString("nama");
 
-                PeminjamanModel p = new PeminjamanModel(id, tanggalPinjam, tanggalKembali, denda, anggota);
+                Peminjaman p = new Peminjaman(id, tanggalPinjam, tanggalKembali, denda, anggota);
                 pList.add(p);
             }
         } catch (SQLException e) {
@@ -95,8 +95,8 @@ public class PeminjamanDAO implements PeminjamanInterface<PeminjamanModel> {
     }
 
     @Override
-    public DetailPeminjamanModel getDetailPeminjaman(int id) {
-        DetailPeminjamanModel detailPeminjamanModel = null;
+    public DetailPeminjaman getDetailPeminjaman(int id) {
+        DetailPeminjaman detailPeminjaman = null;
         try {
             String query = "select * from peminjaman join peminjam on(peminjaman.id_anggota = peminjam.id) where peminjaman.id=?;";
             PreparedStatement ps;
@@ -119,9 +119,9 @@ public class PeminjamanDAO implements PeminjamanInterface<PeminjamanModel> {
             if (currentDateTime.isAfter(LocalDateTime.parse(tanggalKembali, formatter))) {
                 dendaTerlambat = denda;
             }
-            PeminjamanModel p = new PeminjamanModel(id, tanggalPinjam, tanggalKembali, dendaTerlambat, anggota);
+            Peminjaman p = new Peminjaman(id, tanggalPinjam, tanggalKembali, dendaTerlambat, anggota);
 
-            ObservableList<BookModel> bookModels = FXCollections.observableArrayList();
+            ObservableList<Buku> bukus = FXCollections.observableArrayList();
             String query2 = "select buku.id as id, judul_buku, penulis_buku, penerbit_buku, " +
                     "tahun_terbit, stock from buku join detail_peminjaman on(detail_peminjaman.id_buku " +
                     "= buku.id) left join peminjaman on(detail_peminjaman.id_peminjaman = peminjaman.id) " +
@@ -132,27 +132,27 @@ public class PeminjamanDAO implements PeminjamanInterface<PeminjamanModel> {
             ps2.setInt(1, id);
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {
-                String idBuku = rs2.getString("id");
+                int idBuku = rs2.getInt("id");
                 String title = rs2.getString("judul_buku");
                 String author = rs2.getString("penulis_buku");
                 String publisher = rs2.getString("penerbit_buku");
                 int publishYear = rs2.getInt("tahun_terbit");
                 int stock = rs2.getInt("stock");
 
-                BookModel b = new BookModel(idBuku, title, author, publisher, publishYear, stock);
-                bookModels.add(b);
+                Buku b = new Buku(idBuku, title, author, publisher, publishYear, stock);
+                bukus.add(b);
             }
-            detailPeminjamanModel = new DetailPeminjamanModel(p, bookModels);
+            detailPeminjaman = new DetailPeminjaman(p, bukus);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
-        System.out.println(detailPeminjamanModel);
-        return detailPeminjamanModel;
+        System.out.println(detailPeminjaman);
+        return detailPeminjaman;
     }
 
     @Override
-    public int completeTheLoan(int id, ObservableList<BookModel> bookModels) {
+    public int completeTheLoan(int id, ObservableList<Buku> bukus) {
         int result = 0;
         try {
             Connection conn = JDBCConnection.getConnection();
@@ -165,12 +165,11 @@ public class PeminjamanDAO implements PeminjamanInterface<PeminjamanModel> {
                 result = ps2.executeUpdate();
 
                 String query = "update buku set stok = stok + ? where id = ?;";
-                for (BookModel bm: bookModels) {
-                    System.out.println(bm.getId()+bm.getStock().getValue());
+                for (Buku bm: bukus) {
                     PreparedStatement ps;
                     ps = conn.prepareStatement(query);
-                    ps.setInt(1, Integer.parseInt(bm.getStock().getValue()));
-                    ps.setInt(2, Integer.parseInt(bm.getId()));
+                    ps.setInt(1, bm.getStock());
+                    ps.setInt(2, bm.getId());
                     ps.executeUpdate();
                 }
 

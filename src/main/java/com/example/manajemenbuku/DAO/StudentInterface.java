@@ -9,5 +9,5 @@ public interface StudentInterface<E> {
     public int delData(E data);
     public int updateData(E data);
     public ObservableList<E> showData();
-    public E getDetail(String id);
+    public E getDetail(int id);
 }

@@ -2,7 +2,8 @@ package com.example.manajemenbuku.controller;
 
 import com.example.manajemenbuku.DAO.StudentDAO;
 import com.example.manajemenbuku.Main;
-import com.example.manajemenbuku.model.StudentModel;
+import com.example.manajemenbuku.model.Anggota;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,15 +20,15 @@ import java.util.ResourceBundle;
 
 public class StudentsController implements Initializable {
     @FXML
-    private TableView<StudentModel> tableStudents;
+    private TableView<Anggota> tableStudents;
     @FXML
-    private TableColumn<StudentModel, String> nimColumn;
+    private TableColumn<Anggota, String> nimColumn;
     @FXML
-    private TableColumn<StudentModel, String> nameColumn;
+    private TableColumn<Anggota, String> nameColumn;
     @FXML
-    private TableColumn<StudentModel, String> prodiColumn;
+    private TableColumn<Anggota, String> prodiColumn;
     @FXML
-    private TableColumn<StudentModel, String> noTelpColumn;
+    private TableColumn<Anggota, String> noTelpColumn;
     @FXML
     private TreeView<String> sidebarTree;
 
@@ -38,27 +39,26 @@ public class StudentsController implements Initializable {
 
     @FXML
     private void onClickDelete(ActionEvent actionEvent) {
-        StudentModel studentModel;
-        studentModel = (StudentModel) tableStudents.getSelectionModel().getSelectedItem();
+        Anggota anggota;
+        anggota = (Anggota) tableStudents.getSelectionModel().getSelectedItem();
         StudentDAO studentDAO = new StudentDAO();
-        int result = studentDAO.delData(studentModel);
+        int result = studentDAO.delData(anggota);
         if (result != 0) {
             System.out.println("Delete Berhasil");
         }
-        ObservableList<StudentModel> listtudents = studentDAO.showData();
+        ObservableList<Anggota> listtudents = studentDAO.showData();
         tableStudents.setItems(listtudents);
     }
 
     @FXML
     private void onClickUpdate(ActionEvent actionEvent) throws Exception {
-        StudentModel studentModel;
-        studentModel = (StudentModel) tableStudents.getSelectionModel().getSelectedItem();
-
+        Anggota anggota;
+        anggota = (Anggota) tableStudents.getSelectionModel().getSelectedItem();
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("AddStudent.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         StudentController studentController = loader.getController();
-        studentController.getId(studentModel.getId());
+        studentController.getId(anggota.getId());
 
         Main.showUpdateBookPage(scene);
     }
@@ -72,12 +72,12 @@ public class StudentsController implements Initializable {
         SidebarController sidebarController = new SidebarController();
         sidebarController.initSidebarItem(sidebarTree);
         StudentDAO studentDAO = new StudentDAO();
-        ObservableList<StudentModel> listStudents = studentDAO.showData();
+        ObservableList<Anggota> listStudents = studentDAO.showData();
 
-        nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        nimColumn.setCellValueFactory(cellData -> cellData.getValue().NIMProperty());
-        prodiColumn.setCellValueFactory(cellData -> cellData.getValue().prodiProperty());
-        noTelpColumn.setCellValueFactory(cellData -> cellData.getValue().noTelpProperty());
+        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+        nimColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNIM()));
+        prodiColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProdi()));
+        noTelpColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNoTelp()));
         tableStudents.setItems(listStudents);
     }
 }

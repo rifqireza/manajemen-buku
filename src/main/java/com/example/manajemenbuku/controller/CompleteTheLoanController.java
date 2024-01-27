@@ -2,9 +2,10 @@ package com.example.manajemenbuku.controller;
 
 import com.example.manajemenbuku.DAO.PeminjamanDAO;
 import com.example.manajemenbuku.Main;
-import com.example.manajemenbuku.model.BookModel;
-import com.example.manajemenbuku.model.DetailPeminjamanModel;
-import com.example.manajemenbuku.model.PeminjamanModel;
+import com.example.manajemenbuku.model.Buku;
+import com.example.manajemenbuku.model.DetailPeminjaman;
+import com.example.manajemenbuku.model.Peminjaman;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -21,17 +22,17 @@ public class CompleteTheLoanController {
     @FXML
     private Label nama;
     @FXML
-    private TableView<BookModel> tableBooks;
+    private TableView<Buku> tableBooks;
     @FXML
-    private TableColumn<BookModel, String> titleColumn;
+    private TableColumn<Buku, String> titleColumn;
     @FXML
-    private TableColumn<BookModel, String> authorColumn;
+    private TableColumn<Buku, String> authorColumn;
     @FXML
-    private TableColumn<BookModel, String> publisherColumn;
+    private TableColumn<Buku, String> publisherColumn;
     @FXML
-    private TableColumn<BookModel, String> publishYearColumn;
+    private TableColumn<Buku, String> publishYearColumn;
     @FXML
-    private TableColumn<BookModel, String> stockColumn;
+    private TableColumn<Buku, String> stockColumn;
 
     private int Id;
 
@@ -39,19 +40,19 @@ public class CompleteTheLoanController {
         this.Id = id;
         System.out.println(id);
         PeminjamanDAO peminjamanDAO = new PeminjamanDAO();
-        DetailPeminjamanModel dpModel = peminjamanDAO.getDetailPeminjaman(id);
+        DetailPeminjaman dpModel = peminjamanDAO.getDetailPeminjaman(id);
 
-        PeminjamanModel pModel = dpModel.getPeminjamanModel();
+        Peminjaman pModel = dpModel.getPeminjamanModel();
         tglPeminjaman.setText(pModel.getTglPeminjaman());
         tglPengembalian.setText(pModel.getTglPengembalian());
         denda.setText(pModel.getDenda());
         nama.setText(pModel.getStudent());
 
-        titleColumn.setCellValueFactory(cellData -> cellData.getValue().getTitle());
-        authorColumn.setCellValueFactory(cellData -> cellData.getValue().getAuthor());
-        publisherColumn.setCellValueFactory(cellData -> cellData.getValue().getPublisher());
-        publishYearColumn.setCellValueFactory(cellData -> cellData.getValue().getPublishYear());
-        stockColumn.setCellValueFactory(cellData -> cellData.getValue().getStock());
+        titleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
+        authorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAuthor()));
+        publisherColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPublisher()));
+        publishYearColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getPublishYear())));
+        stockColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getStock())));
         tableBooks.setItems(dpModel.getBookModel());
     }
 

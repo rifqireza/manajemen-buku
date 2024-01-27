@@ -1,7 +1,9 @@
 package com.example.manajemenbuku.DAO;
 
-public interface LoginInterface {
-    public boolean login(String uname, String pw);
+import com.example.manajemenbuku.model.Admin;
+
+public interface LoginInterface<E> {
+    public boolean login(E admin);
     public boolean isExistAdmin();
-    public int register(String name, String uname, String password);
+    public int register(E admin);
 }

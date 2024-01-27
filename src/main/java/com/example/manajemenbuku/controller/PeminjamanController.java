@@ -4,9 +4,10 @@ import com.example.manajemenbuku.DAO.CartDAO;
 import com.example.manajemenbuku.DAO.PeminjamanDAO;
 import com.example.manajemenbuku.DAO.StudentDAO;
 import com.example.manajemenbuku.Main;
-import com.example.manajemenbuku.model.BookModel;
-import com.example.manajemenbuku.model.PeminjamanModel;
-import com.example.manajemenbuku.model.StudentModel;
+import com.example.manajemenbuku.model.Buku;
+import com.example.manajemenbuku.model.Peminjaman;
+import com.example.manajemenbuku.model.Anggota;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,15 +20,15 @@ import java.util.ResourceBundle;
 
 public class PeminjamanController implements Initializable {
     @FXML
-    private TableView<StudentModel> tableStudents;
+    private TableView<Anggota> tableStudents;
     @FXML
-    private TableColumn<StudentModel, String> nimColumn;
+    private TableColumn<Anggota, String> nimColumn;
     @FXML
-    private TableColumn<StudentModel, String> nameColumn;
+    private TableColumn<Anggota, String> nameColumn;
     @FXML
-    private TableColumn<StudentModel, String> prodiColumn;
+    private TableColumn<Anggota, String> prodiColumn;
     @FXML
-    private TableColumn<StudentModel, String> noTelpColumn;
+    private TableColumn<Anggota, String> noTelpColumn;
     @FXML
     private DatePicker tanggalPeminjaman;
     @FXML
@@ -66,9 +67,9 @@ public class PeminjamanController implements Initializable {
         String dendaText = denda.getText();
         errorDenda.setText(isNotEmptyField(dendaText, "Denda"));
 
-        StudentModel studentModel = null;
+        Anggota anggota = null;
         if (tableStudents.getSelectionModel().getSelectedItem() != null) {
-            studentModel = (StudentModel) tableStudents.getSelectionModel().getSelectedItem();
+            anggota = (Anggota) tableStudents.getSelectionModel().getSelectedItem();
             errorAnggota.setText("");
         } else {
             errorAnggota.setText(isNotEmptyField("", "Peminjam"));
@@ -84,19 +85,19 @@ public class PeminjamanController implements Initializable {
                 && errorAnggota.getText().isEmpty()
                 && errorPengembalian.getText().isEmpty()
         ) {
-            PeminjamanModel peminjamanModel = new PeminjamanModel(
+            Peminjaman peminjaman = new Peminjaman(
                         1,
                     tglPeminjaman,
                     tglPengembalian,
                     dendaText,
-                    studentModel.getId()
+                    String.valueOf(anggota.getId())
             );
 
             CartDAO cartDAO = new CartDAO();
-            ObservableList<BookModel> listBooks = cartDAO.getCartBook();
+            ObservableList<Buku> listBukus = cartDAO.getCartBook();
 
             PeminjamanDAO peminjamanDAO = new PeminjamanDAO();
-            peminjamanDAO.addPeminjaman(peminjamanModel, listBooks);
+            peminjamanDAO.addPeminjaman(peminjaman, listBukus);
             Main.showListBooksPage();
         }
     }
@@ -104,12 +105,12 @@ public class PeminjamanController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         StudentDAO studentDAO = new StudentDAO();
-        ObservableList<StudentModel> listStudents = studentDAO.showData();
+        ObservableList<Anggota> listStudents = studentDAO.showData();
 
-        nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        nimColumn.setCellValueFactory(cellData -> cellData.getValue().NIMProperty());
-        prodiColumn.setCellValueFactory(cellData -> cellData.getValue().prodiProperty());
-        noTelpColumn.setCellValueFactory(cellData -> cellData.getValue().noTelpProperty());
+        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+        nimColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNIM()));
+        prodiColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProdi()));
+        noTelpColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNoTelp()));
         tableStudents.setItems(listStudents);
     }
 

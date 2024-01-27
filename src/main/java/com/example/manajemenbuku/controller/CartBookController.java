@@ -2,7 +2,8 @@ package com.example.manajemenbuku.controller;
 
 import com.example.manajemenbuku.DAO.CartDAO;
 import com.example.manajemenbuku.Main;
-import com.example.manajemenbuku.model.BookModel;
+import com.example.manajemenbuku.model.Buku;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,17 +16,17 @@ import java.util.ResourceBundle;
 
 public class CartBookController implements Initializable {
     @FXML
-    private TableView<BookModel> tableBooks;
+    private TableView<Buku> tableBooks;
     @FXML
-    private TableColumn<BookModel, String> titleColumn;
+    private TableColumn<Buku, String> titleColumn;
     @FXML
-    private TableColumn<BookModel, String> authorColumn;
+    private TableColumn<Buku, String> authorColumn;
     @FXML
-    private TableColumn<BookModel, String> publisherColumn;
+    private TableColumn<Buku, String> publisherColumn;
     @FXML
-    private TableColumn<BookModel, String> publishYearColumn;
+    private TableColumn<Buku, String> publishYearColumn;
     @FXML
-    private TableColumn<BookModel, String> stockColumn;
+    private TableColumn<Buku, String> stockColumn;
 
     @FXML
     private void onClickSubmit() throws Exception {
@@ -34,15 +35,15 @@ public class CartBookController implements Initializable {
 
     @FXML
     private void onClickDelete(ActionEvent actionEvent) {
-        BookModel bookModel;
-        bookModel = (BookModel) tableBooks.getSelectionModel().getSelectedItem();
+        Buku buku;
+        buku = (Buku) tableBooks.getSelectionModel().getSelectedItem();
         CartDAO cartDAO = new CartDAO();
-        int result = cartDAO.delData(bookModel);
+        int result = cartDAO.delData(buku);
         if (result != 0) {
             System.out.println("Delete Berhasil");
         }
-        ObservableList<BookModel> listBooks = cartDAO.getCartBook();
-        tableBooks.setItems(listBooks);
+        ObservableList<Buku> listBukus = cartDAO.getCartBook();
+        tableBooks.setItems(listBukus);
     }
 
     @FXML
@@ -52,13 +53,13 @@ public class CartBookController implements Initializable {
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         CartDAO cartDAO = new CartDAO();
-        ObservableList<BookModel> listBooks = cartDAO.getCartBook();
+        ObservableList<Buku> listBukus = cartDAO.getCartBook();
 
-        titleColumn.setCellValueFactory(cellData -> cellData.getValue().getTitle());
-        authorColumn.setCellValueFactory(cellData -> cellData.getValue().getAuthor());
-        publisherColumn.setCellValueFactory(cellData -> cellData.getValue().getPublisher());
-        publishYearColumn.setCellValueFactory(cellData -> cellData.getValue().getPublishYear());
-        stockColumn.setCellValueFactory(cellData -> cellData.getValue().getStock());
-        tableBooks.setItems(listBooks);
+        titleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
+        authorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAuthor()));
+        publisherColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPublisher()));
+        publishYearColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getPublishYear())));
+        stockColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getStock())));
+        tableBooks.setItems(listBukus);
     }
 }
